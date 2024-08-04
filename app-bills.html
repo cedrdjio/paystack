@@ -255,142 +255,102 @@
     <script src="assets/js/base.js"></script>
 
     <script>
-      
-      // Récupérer les boutons "PAYER"
-const userId = localStorage.getItem('userId');
-const payButtons = document.querySelectorAll('.btn-primary');
-// Ajouter un événement click à chaque bouton
+      document.addEventListener('DOMContentLoaded', async () => {
+          // Récupérer les boutons "PAYER"
+          const userId = localStorage.getItem('userId');
+          const payButtons = document.querySelectorAll('.btn-primary');
 
-payButtons.forEach(button => {
-  button.addEventListener('click', (event) => {
+          // Ajouter un événement click à chaque bouton
+          payButtons.forEach(button => {
+              button.addEventListener('click', (event) => {
+                  // Récupérer l'ID du plan à partir de l'attribut id du bouton
+                  const id = event.target.id.replace('plan-', '');
+                  console.log('le plan est :', id);
 
-    // Récupérer l'ID du plan à partir de l'attribut id du bouton
-    const id = event.target.id.replace('plan-', '');
-    console.log('le plan est :', id);
+                  // Envoyer la requête POST avec les ID de l'utilisateur et du plan
+                  fetch(`https://oyster-app-sq8k5.ondigitalocean.app/api/${userId}/subscribe`, {
+                      method: 'POST',
+                      body: JSON.stringify({ id }),
+                      headers: {
+                          'Content-Type': 'application/json'
+                      },
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                      console.log('Données reçues :', data);
 
-    // Récupérer l'ID de l'utilisateur à partir du localStorage
-    const userId = localStorage.getItem('userId');
-    console.log('le userID est :', userId);
+                      if (data.message === 'Solde insuffisant') {
+                          // Afficher un SweetAlert d'erreur
+                          Swal.fire({
+                              icon: 'error',
+                              title: 'Erreur',
+                              text: 'Votre solde est insuffisant',
+                              confirmButtonText: 'OK'
+                          });
+                      } else {
+                          // Afficher un SweetAlert de succès
+                          Swal.fire({
+                              icon: 'success',
+                              title: 'Abonnement réussi',
+                              text: 'Votre abonnement a été effectué avec succès.',
+                              confirmButtonText: 'OK'
+                          }).then(() => {
+                              window.location.reload();
+                          });
+                      }
+                  })
+                  .catch(error => {
+                      console.error('Erreur :', error);
+                      // Afficher un SweetAlert d'erreur
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Erreur',
+                          text: 'Erreur inconnue',
+                          confirmButtonText: 'OK'
+                      });
+                  });
+              });
+          });
 
-    // Envoyer la requête POST avec les ID de l'utilisateur et du plan
-    fetch('https://oyster-app-sq8k5.ondigitalocean.app/api/' + localStorage.getItem('userId') + '/subscribe', {
-  method: 'POST',
-  body: JSON.stringify({ id }),
-  headers: {
-    'Content-Type': 'application/json'
-  },
-})
-.then(response => response.json())
+          // Charger les abonnements de l'utilisateur
+          try {
+              const response = await fetch(`https://oyster-app-sq8k5.ondigitalocean.app/api/subscriptions/${userId}`, {
+                  method: 'GET',
+                  mode: 'cors',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+              });
 
-.then(data => {
+              const data = await response.json();
+              console.log(data);
 
-  console.log('Données reçues :', data);
-
-  if (data.message === 'Solde insuffisant') {
-    // Afficher un SweetAlert d'erreur
-    Swal.fire({
-
-      icon: 'error',
-      title: 'Erreur',
-      text: 'Votre solde est insuffisant',
-      confirmButtonText: 'OK'
-
-    });
-
-  } else {
-
-    // Afficher un SweetAlert de succès
-
-    Swal.fire({
-
-      icon: 'success',
-      title: 'Abonnement réussi',
-      text: 'Votre abonnement a été effectué avec succès.',
-      confirmButtonText: 'OK'
-
-    }).then(() => {
-
-      window.location.reload();
-
-    });
-
-  }
-
-})
-
-.catch(error => {
-
-  console.error('Erreur :', error);
-
-  // Afficher un SweetAlert d'erreur
-
-  Swal.fire({
-
-    icon: 'error',
-    title: 'Erreur',
-    text: 'Erreur inconnue',
-    confirmButtonText: 'OK'
-
-  });
-
-});
-    
-  });
-
-});
-
-
-
-
-
-
-
-
-fetch('https://oyster-app-sq8k5.ondigitalocean.app/api/subscriptions/' + localStorage.getItem('userId'),{
-      method: 'GET',
-      mode :'cors',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-   .then(response => response.json())
-   .then(data => {
-      console.log(data);
-      
-      if (Array.isArray(data) && data.length > 0) {
-    // Utilisez data directement car il est déjà un tableau d'abonnements
-    const subscriptionHtml = data.map(subscription => {
-        const startDateFormatted = new Date(subscription.startDate).toLocaleDateString('fr-FR');
-        const endDateFormatted = new Date(subscription.endDate).toLocaleDateString('fr-FR');
-      return `
-       
-          
-            <div class="bill-box">
-              <h4><i>${subscription.plan}</i></h4>
-              <div class="price">${subscription.price || 'N/A'} FCFA</div>
-              <p class="${subscription.statuts ? 'status-active' : 'status-expired'}">
-                  ${subscription.statuts ? 'Projet actif' : 'Expiré'}
-             </p>
-            </div>
-          </div>
-        </div>
-      `;
-    }).join('');
-    console.log('Generated HTML:', subscriptionHtml);
-    document.getElementById('paid').innerHTML = subscriptionHtml;
-  } else {
-    console.error('No subscriptions found');
-    document.getElementById('paid').innerHTML = '<p>Aucun forfait actif</p>';
-  }
-})
-
-   .catch(error => {
-      console.error('Erreur :', error);
-
-    });
-
-      
-    </script>
+              if (Array.isArray(data) && data.length > 0) {
+                  // Utilisez data directement car il est déjà un tableau d'abonnements
+                  const subscriptionHtml = data.map(subscription => {
+                      const startDateFormatted = new Date(subscription.startDate).toLocaleDateString('fr-FR');
+                      const endDateFormatted = new Date(subscription.endDate).toLocaleDateString('fr-FR');
+                      return `
+                          <div class="bill-box">
+                              <h4><i>${subscription.plan}</i></h4>
+                              <div class="price">${subscription.price || 'N/A'} FCFA</div>
+                              <p class="${subscription.statuts ? 'status-active' : 'status-expired'}">
+                                  ${subscription.statuts ? 'Projet actif' : 'Expiré'}
+                              </p>
+                          </div>
+                      `;
+                  }).join('');
+                  console.log('Generated HTML:', subscriptionHtml);
+                  document.getElementById('paid').innerHTML = subscriptionHtml;
+              } else {
+                  console.error('No subscriptions found');
+                  document.getElementById('paid').innerHTML = '<p>Aucun forfait actif</p>';
+              }
+          } catch (error) {
+              console.error('Erreur :', error);
+          }
+      });
+  </script>
 
 
 </body>

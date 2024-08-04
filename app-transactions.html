@@ -136,64 +136,60 @@
             .catch(error => {
                 console.error('Erreur :', error);
             });
-        });
 
-        function displayTransactions(data) {
-            const container = document.getElementById('transactions-container');
-            container.innerHTML = ''; // Vider le conteneur
+            function displayTransactions(data) {
+                const container = document.getElementById('transactions-container');
+                container.innerHTML = ''; // Vider le conteneur
 
-            if (Array.isArray(data) && data.length > 0) {
-                const transactionsHtml = data.map(transaction => {
-                    const dateFormatted = new Date(transaction.date).toLocaleDateString('fr-FR');
-                    let typeClass = '';
-                    let amountClass = '';
+                if (Array.isArray(data) && data.length > 0) {
+                    const transactionsHtml = data.map(transaction => {
+                        const dateFormatted = new Date(transaction.date).toLocaleDateString('fr-FR');
+                        let typeClass = '';
+                        let amountClass = '';
 
-                    switch (transaction.type) {
-                        case 'retrait':
-                            typeClass = 'type-retrait';
-                            amountClass = 'transaction-amount-retrait';
-                            break;
-                        case 'souscription':
-                            typeClass = 'type-souscription';
-                            amountClass = 'transaction-amount-souscription';
-                            break;
-                        case 'recharge':
-                            typeClass = 'type-recharge';
-                            amountClass = 'transaction-amount-recharge';
-                            break;
-                        default:
-                            typeClass = '';
-                            amountClass = '';
-                            break;
-                    }
+                        switch (transaction.type) {
+                            case 'retrait':
+                                typeClass = 'type-retrait';
+                                amountClass = 'transaction-amount-retrait';
+                                break;
+                            case 'souscription':
+                                typeClass = 'type-souscription';
+                                amountClass = 'transaction-amount-souscription';
+                                break;
+                            case 'recharge':
+                                typeClass = 'type-recharge';
+                                amountClass = 'transaction-amount-recharge';
+                                break;
+                            default:
+                                typeClass = '';
+                                amountClass = '';
+                                break;
+                        }
 
-                    return `
-                        <div class="transaction-item">
-                            <a href="#" class="item">
-                                <div class="detail">
-                                    <div>
-                                        <strong class="${typeClass}">${transaction.type}</strong>
-                                        <p>${transaction.description}</p>
-                                        <p>${dateFormatted}</p>
+                        return `
+                            <div class="transaction-item">
+                                <a href="#" class="item">
+                                    <div class="detail">
+                                        <div>
+                                            <strong class="${typeClass}">${transaction.type}</strong>
+                                            <p>${transaction.description}</p>
+                                            <p>${dateFormatted}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="right">
-                                    <div class="price ${amountClass}">${transaction.amount ? transaction.amount + ' FCFA' : 'N/A'}</div>
-                                </div>
-                            </a>
-                        </div>
-                    `;
-                }).join('');
-                container.innerHTML = transactionsHtml;
-            } else {
-                console.error('No transactions found');
-                container.innerHTML = '<p>Aucune transaction trouvée</p>';
+                                    <div class="right">
+                                        <div class="price ${amountClass}">${transaction.amount ? transaction.amount + ' FCFA' : 'N/A'}</div>
+                                    </div>
+                                </a>
+                            </div>
+                        `;
+                    }).join('');
+                    container.innerHTML = transactionsHtml;
+                } else {
+                    console.error('No transactions found');
+                    container.innerHTML = '<p>Aucune transaction trouvée</p>';
+                }
             }
-        }
-
-
-
-        
+        });
     </script>
 </body>
 
