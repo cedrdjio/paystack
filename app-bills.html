@@ -273,7 +273,7 @@ payButtons.forEach(button => {
     console.log('le userID est :', userId);
 
     // Envoyer la requête POST avec les ID de l'utilisateur et du plan
-    fetch('http://localhost:5000/api/' + localStorage.getItem('userId') + '/subscribe', {
+    fetch('https://oyster-app-sq8k5.ondigitalocean.app/api/' + localStorage.getItem('userId') + '/subscribe', {
   method: 'POST',
   body: JSON.stringify({ id }),
   headers: {
@@ -346,7 +346,7 @@ payButtons.forEach(button => {
 
 
 
-fetch('http://localhost:5000/api/subscriptions/' + localStorage.getItem('userId'),{
+fetch('https://oyster-app-sq8k5.ondigitalocean.app/api/subscriptions/' + localStorage.getItem('userId'),{
       method: 'GET',
       mode :'cors',
       headers: {

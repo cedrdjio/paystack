@@ -123,7 +123,7 @@
         document.addEventListener("DOMContentLoaded", function () {
             const userId = localStorage.getItem('userId'); // Assurez-vous que userId est stocké dans le localStorage
 
-            fetch(`http://localhost:5000/api/users/${userId}/transactions`, {
+            fetch(`https://oyster-app-sq8k5.ondigitalocean.app/api/users/${userId}/transactions`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'

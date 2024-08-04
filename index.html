@@ -631,7 +631,7 @@ if (!token || token === 'undefined' || token === '') {
 } else {
   console.log(" c'est cool c'est passé :)");
 
-  fetch(`http://localhost:5000/api/users/${userId}`, {
+  fetch(`https://oyster-app-sq8k5.ondigitalocean.app/api/users/${userId}`, {
     method: 'GET',
     mode: 'cors',
     headers: {
@@ -710,7 +710,7 @@ if (!token || token === 'undefined' || token === '') {
   });
 }
 
-const transactionsUrl = `http://localhost:5000/api/users/${userId}/transactions`;
+const transactionsUrl = `https://oyster-app-sq8k5.ondigitalocean.app/api/users/${userId}/transactions`;
 
 // Fonction pour charger les transactions
 async function loadTransactions() {
@@ -807,7 +807,7 @@ async function handleRecharge() {
         return;
     }
 
-    const url = `http://localhost:5000/api/users/${userId}/recharge`;
+    const url = `https://oyster-app-sq8k5.ondigitalocean.app/api/users/${userId}/recharge`;
     const data = {
         transactionId: transactionId,
         amount: parseInt(amount, 10),
@@ -877,7 +877,7 @@ function handleWithdraw() {
     };
 
     // Envoyer la requête POST à l'API de retrait
-    fetch(`http://localhost:5000/api/users/${userId}/withdraw`, {
+    fetch(`https://oyster-app-sq8k5.ondigitalocean.app/api/users/${userId}/withdraw`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
