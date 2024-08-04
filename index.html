@@ -623,27 +623,31 @@
                 }
 
                 const data = await userResponse.json();
-                const revenusProjet = data.revenusProjet;
-                const totalRetrait = data.totalRetrait;
-                const invitations = data.invitations;
-                const soldeCompte = data.soldeCompte;
-                const soldeTotal = (data.soldeTotal + data.soldeCompte + data.invitations) - data.totalRetrait;
+                const revenusProjet = data.revenusProjet || 0;
+                const totalRetrait = data.totalRetrait || 0;
+                const invitations = data.invitations || 0;
+                const soldeCompte = data.soldeCompte || 0;
+                const soldeTotal = (data.soldeTotal + soldeCompte + invitations) - totalRetrait;
 
                 // Update HTML elements with user data
-                document.getElementById('user-name').innerHTML = name || '';
-                document.getElementById('solde-total').innerHTML = `${soldeTotal} FCFA` || '';
-                document.getElementById('solde-total1').innerHTML = `${soldeTotal} FCFA` || '';
-                document.getElementById('revenusProjet').innerHTML = revenusProjet || '';
-                document.getElementById('totalRetrait').innerHTML = totalRetrait || '';
-                document.getElementById('invitations').innerHTML = invitations || '';
-                document.getElementById('phone').innerHTML = phone || '';
+                document.getElementById('user-name').textContent = name || '';
+                document.getElementById('solde-total').textContent = `${soldeTotal} FCFA` || '';
+                document.getElementById('solde-total1').textContent = `${soldeTotal} FCFA` || '';
+                document.getElementById('revenusProjet').textContent = revenusProjet || '';
+                document.getElementById('totalRetrait').textContent = totalRetrait || '';
+                document.getElementById('invitations').textContent = invitations || '';
+                document.getElementById('phone').textContent = phone || '';
 
                 await loadTransactions();
 
             } catch (error) {
                 console.error('Error:', error);
-                if (error.status === 401) {
-                    console.log('Invalid token, redirecting to login page');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erreur',
+                    text: error.message || 'Erreur lors de la récupération des données utilisateur.',
+                });
+                if (error.message === 'API error') {
                     window.location.href = 'app-login.html';
                 }
             }
@@ -652,7 +656,18 @@
 
             async function loadTransactions() {
                 try {
-                    const response = await fetch(transactionsUrl);
+                    const response = await fetch(transactionsUrl, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Erreur lors de la récupération des transactions');
+                    }
+
                     const transactions = await response.json();
                     const transactionsContainer = document.querySelector('.transactions');
 
@@ -679,7 +694,7 @@
                         const detailInnerDiv = document.createElement('div');
 
                         const strongText = document.createElement('strong');
-                        strongText.textContent = transaction.type; // Vous pouvez changer cela selon vos besoins
+                        strongText.textContent = transaction.type || 'Type inconnu';
 
                         const dateParagraph = document.createElement('p');
                         dateParagraph.textContent = new Date(transaction.date).toLocaleDateString();
@@ -695,7 +710,7 @@
 
                         const priceDiv = document.createElement('div');
                         priceDiv.className = 'prix transact';
-                        priceDiv.textContent = `- ${transaction.amount} FCFA`; // Supposant que 'amount' est le montant de la transaction
+                        priceDiv.textContent = `- ${transaction.amount} FCFA` || 'Montant inconnu';
 
                         rightDiv.appendChild(priceDiv);
 
@@ -706,11 +721,15 @@
                     });
                 } catch (error) {
                     console.error('Erreur lors du chargement des transactions:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erreur',
+                        text: 'Erreur lors de la récupération des transactions.',
+                    });
                 }
             }
 
-            // Fontion pour effectuer une recharge
-            async function handleRecharge() {
+            window.handleRecharge = async function () {
                 const amountElement = document.getElementById('amount');
                 const verificationChainElement = document.getElementById('transactionId');
 
@@ -737,7 +756,7 @@
 
                 const url = `https://oyster-app-sq8k5.ondigitalocean.app/api/users/${userId}/recharge`;
                 const data = {
-                    transactionId: transactionId,
+                    transactionId: verificationChain,
                     amount: parseInt(amount, 10),
                     verificationChain: verificationChain
                 };
@@ -777,8 +796,7 @@
                 }
             }
 
-            // Fonction pour effectuer un retrait
-            function handleWithdraw() {
+            window.handleWithdraw = async function () {
                 const amountInput = document.getElementById('montant');
                 const amount = parseInt(amountInput.value, 10);
 
@@ -795,43 +813,38 @@
 
                 const data = { amount: amount };
 
-                fetch(`https://oyster-app-sq8k5.ondigitalocean.app/api/users/${userId}/withdraw`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: '200',
-                            text: 'Demande de retrait effectuée',
-                            confirmButtonText: 'OK',
-                            confirmButtonColor: '#3085d6'
-                        }).then(() => {
-                            window.location.href = 'index.html';
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Erreur',
-                            text: data.message || 'Une erreur est survenue',
-                            confirmButtonText: 'OK',
-                            confirmButtonColor: '#3085d6'
-                        });
+                try {
+                    const response = await fetch(`https://oyster-app-sq8k5.ondigitalocean.app/api/users/${userId}/withdraw`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(`Erreur: ${errorText}`);
                     }
-                })
-                .catch(error => {
+
+                    const result = await response.json();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Succès',
+                        text: 'Retrait effectué avec succès!',
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                    console.log(result);
+                } catch (error) {
+                    console.error('Erreur:', error);
                     Swal.fire({
                         icon: 'error',
                         title: 'Erreur',
-                        text: 'Une erreur est survenue lors de l\'envoi de la requête',
-                        confirmButtonText: 'OK',
-                        confirmButtonColor: '#3085d6'
+                        text: 'Erreur lors du retrait.',
                     });
-                    console.error('Error:', error);
-                });
+                }
             }
         });
     </script>
