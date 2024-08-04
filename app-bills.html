@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#000000">
+    <title>Finapp</title>
+    <style>
+        .container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.bill-box {
+  flex: 1 1 calc(50% - 10px); /* 50% width minus 10px margin */
+  box-sizing: border-box;
+  margin: 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.img-wrapper {
+  margin-bottom: 10px;
+}
+
+.price {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.status-active {
+  color: green;
+}
+
+.status-expired {
+  color: red;
+}
+      </style>
+    <meta name="description" content="Finapp HTML Mobile Template">
+    <meta name="keywords" content="bootstrap, wallet, banking, fintech mobile template, cordova, phonegap, mobile, html, responsive" />
+    <link rel="icon" type="image/png" href="assets/img/favicon.png" sizes="32x32">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/icon/192x192.png">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="manifest" href="__manifest.json">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+</head>
+
+<body>
+
+    <!-- loader -->
+    <div id="loader">
+        <img src="assets/img/loading-icon.png" alt="icon" class="loading-icon">
+    </div>
+    <!-- * loader -->
+
+    <!-- App Header -->
+    <div class="appHeader">
+        <div class="left">
+            <a href="#" class="headerButton goBack">
+                <ion-icon name="chevron-back-outline"></ion-icon>
+            </a>
+        </div>
+        <div class="pageTitle">
+            Forfaits
+        </div>
+        <!--<div class="right">
+            <a href="#" class="headerButton" data-bs-toggle="modal" data-bs-target="#actionSheetForm">
+                <ion-icon name="add-outline"></ion-icon>
+            </a>
+        </div>
+    -->
+    </div>
+    <!-- * App Header -->
+
+    <!-- Extra Header -->
+    <div class="extraHeader pe-0 ps-0">
+        <ul class="nav nav-tabs lined" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-bs-toggle="tab" href="#waiting" role="tab">
+                    Forfaits
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#paid" role="tab">
+                    Forfaits en cours
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- * Extra Header -->
+
+
+
+
+    <!-- App Capsule -->
+      <div id="appCapsule" class="extra-header-active full-height">
+
+        <div class="section tab-content mt-2 mb-1">
+
+            <!-- waiting tab -->
+            <div class="tab-pane fade show active" id="waiting" role="tabpanel">
+                <div class="row">
+                    <div class="col-6 mb-2">
+                        <div class="bill-box">
+                            <h4> <i> VIP </i> </h4>
+                            <div class="img-wrapper">
+                                <img src="assets/img/sample/brand/1.png" alt="img" class="image-block imaged w48">
+                            </div>
+                            <div class="price"> 5000 FCFA</div>
+                            <p>1000 FCFA H24 pendant 60 jours</p>
+                            <a href="#" id="plan-66a6b804b63e82942905cabd" class="btn btn-primary btn-block btn-sm">PAYER</a>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <div class="bill-box">
+                            <h4> <i> PRESTIGE </i> </h4>
+                            <div class="img-wrapper">
+                                <img src="assets/img/sample/brand/2.png" alt="img" class="image-block imaged w48">
+                            </div>
+                            <div class="price">10.000 FCFA</div>
+                            <p>2000 FCFA H24 pendant 60 jours </p>
+                            <a href="#" id="plan-66a6b8f6b63e82942905cabf" class="btn btn-primary btn-block btn-sm">PAYER</a>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <div class="bill-box">
+                            <h4> <i>  SPLENDEUR</i> </h4>
+                            <div class="img-wrapper">
+                                <img src="assets/img/sample/brand/3.png" alt="img" class="image-block imaged w48">
+                            </div>
+                            <div class="price">15.000 FCFA</div>
+                            <p>3000 FCFA H24 pendant 60 jours</p>
+                            <a href="#" id="plan-66a6b981b63e82942905cac0" class="btn btn-primary btn-block btn-sm">PAYER</a>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <div class="bill-box">
+                            <h4> <i> DE LUXE </i> </h4>
+                            <div class="img-wrapper">
+                                <img src="assets/img/sample/brand/4.png" alt="img" class="image-block imaged w48">
+                            </div>
+                            <div class="price">25.000 FCFA</div>
+                            <p>5000 FCFA H24 pendant 60 jours</p>
+                            <a href="#" id="plan-66a6b9fdb63e82942905cac2" class="btn btn-primary btn-block btn-sm">PAYER</a>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <div class="bill-box">
+                            <h4> <i> ELITE </i> </h4>
+                            <div class="img-wrapper">
+                                <img src="assets/img/sample/brand/5.png" alt="img" class="image-block imaged w48">
+                            </div>
+                            <div class="price"> 50.000 FCFA</div>
+                            <p>10.000 FCFA H24 pendant 60 jours</p>
+                            <a href="#" id="plan-66a6ba0db63e82942905cac3" class="btn btn-primary btn-block btn-sm">PAYER</a>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <div class="bill-box">
+                            <h4> <i> OPULENCE </i> </h4>
+                            <div class="img-wrapper">
+                                <img src="assets/img/sample/brand/6.png" alt="img" class="image-block imaged w48">
+                            </div>
+                            <div class="price">100.000 FCFA</div>
+                            <p>20.000 FCFA H24 pendant 60 jours</p>
+                            <a href="#" id="plan-66a6ba3ab63e82942905cac4" class="btn btn-primary btn-block btn-sm">PAYER</a>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <div class="bill-box">
+                            <h4> <i> PREMIUM </i> </h4>
+                            <div class="img-wrapper">
+                                <img src="assets/img/sample/brand/7.png" alt="img" class="image-block imaged w48">
+                            </div>
+                            <div class="price">250.000 FCFA</div>
+                            <p>50.000 FCFA H24 pendant 60 jours </p>
+                            <a href="#" id="plan-66a6ba5ab63e82942905cac5" class="btn btn-primary btn-block btn-sm">PAYER</a>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <div class="bill-box">
+                            <h4> <i> PREMIUM ++ </i> </h4>
+                            <div class="img-wrapper">
+                                <img src="assets/img/sample/brand/8.png" alt="img" class="image-block imaged w48">
+                            </div>
+                            <div class="price">500.000 FCFA</div>
+                            <p>100.000 FCFA H24 pendant 60 jours</p>
+                            <a href="#" id="plan-66a6bac7b63e82942905cac6" class="btn btn-primary btn-block btn-sm">PAYER</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- * waiting tab -->
+
+
+
+            <!-- paid tab -->
+               <div class="tab-pane fade" id="paid" role="tabpanel">
+                
+               </div>
+            <!-- * paid tab -->
+
+        </div>
+
+      </div>
+    <!-- * App Capsule -->
+
+
+    <!-- App Bottom Menu -->
+    <div class="appBottomMenu">
+        <a href="index.html" class="item">
+            <div class="col">
+                <ion-icon name="pie-chart-outline"></ion-icon>
+                <strong>Acceuil</strong>
+            </div>
+        </a>
+        <a href="app-transactions.html" class="item">
+            <div class="col">
+                <ion-icon name="swap-vertical"></ion-icon>
+                <strong>Transactions</strong>
+            </div>
+        </a>
+        <a href="app-bills.html" class="item active">
+            <div class="col">
+                <ion-icon name="apps-outline"></ion-icon>
+                <strong>Forfaits</strong>
+            </div>
+        </a>
+        <a href="app-contact.html" class="item">
+            <div class="col">
+                <ion-icon name="call-outline"></ion-icon>
+                <strong>Contact</strong>
+            </div>
+        </a>
+    </div>
+    <!-- * App Bottom Menu -->
+
+
+    <!-- ========= JS Files =========  -->
+    <!-- Bootstrap -->
+    <script src="assets/js/lib/bootstrap.bundle.min.js"></script>
+    <!-- Ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <!-- Splide -->
+    <script src="assets/js/plugins/splide/splide.min.js"></script>
+    <!-- Base Js File -->
+    <script src="assets/js/base.js"></script>
+
+    <script>
+      
+      // Récupérer les boutons "PAYER"
+const userId = localStorage.getItem('userId');
+const payButtons = document.querySelectorAll('.btn-primary');
+// Ajouter un événement click à chaque bouton
+
+payButtons.forEach(button => {
+  button.addEventListener('click', (event) => {
+
+    // Récupérer l'ID du plan à partir de l'attribut id du bouton
+    const id = event.target.id.replace('plan-', '');
+    console.log('le plan est :', id);
+
+    // Récupérer l'ID de l'utilisateur à partir du localStorage
+    const userId = localStorage.getItem('userId');
+    console.log('le userID est :', userId);
+
+    // Envoyer la requête POST avec les ID de l'utilisateur et du plan
+    fetch('http://localhost:5000/api/' + localStorage.getItem('userId') + '/subscribe', {
+  method: 'POST',
+  body: JSON.stringify({ id }),
+  headers: {
+    'Content-Type': 'application/json'
+  },
+})
+.then(response => response.json())
+
+.then(data => {
+
+  console.log('Données reçues :', data);
+
+  if (data.message === 'Solde insuffisant') {
+    // Afficher un SweetAlert d'erreur
+    Swal.fire({
+
+      icon: 'error',
+      title: 'Erreur',
+      text: 'Votre solde est insuffisant',
+      confirmButtonText: 'OK'
+
+    });
+
+  } else {
+
+    // Afficher un SweetAlert de succès
+
+    Swal.fire({
+
+      icon: 'success',
+      title: 'Abonnement réussi',
+      text: 'Votre abonnement a été effectué avec succès.',
+      confirmButtonText: 'OK'
+
+    }).then(() => {
+
+      window.location.reload();
+
+    });
+
+  }
+
+})
+
+.catch(error => {
+
+  console.error('Erreur :', error);
+
+  // Afficher un SweetAlert d'erreur
+
+  Swal.fire({
+
+    icon: 'error',
+    title: 'Erreur',
+    text: 'Erreur inconnue',
+    confirmButtonText: 'OK'
+
+  });
+
+});
+    
+  });
+
+});
+
+
+
+
+
+
+
+
+fetch('http://localhost:5000/api/subscriptions/' + localStorage.getItem('userId'),{
+      method: 'GET',
+      mode :'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+   .then(response => response.json())
+   .then(data => {
+      console.log(data);
+      
+      if (Array.isArray(data) && data.length > 0) {
+    // Utilisez data directement car il est déjà un tableau d'abonnements
+    const subscriptionHtml = data.map(subscription => {
+        const startDateFormatted = new Date(subscription.startDate).toLocaleDateString('fr-FR');
+        const endDateFormatted = new Date(subscription.endDate).toLocaleDateString('fr-FR');
+      return `
+       
+          
+            <div class="bill-box">
+              <h4><i>${subscription.plan}</i></h4>
+              <div class="price">${subscription.price || 'N/A'} FCFA</div>
+              <p class="${subscription.statuts ? 'status-active' : 'status-expired'}">
+                  ${subscription.statuts ? 'Projet actif' : 'Expiré'}
+             </p>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+    console.log('Generated HTML:', subscriptionHtml);
+    document.getElementById('paid').innerHTML = subscriptionHtml;
+  } else {
+    console.error('No subscriptions found');
+    document.getElementById('paid').innerHTML = '<p>Aucun forfait actif</p>';
+  }
+})
+
+   .catch(error => {
+      console.error('Erreur :', error);
+
+    });
+
+      
+    </script>
+
+
+</body>
+
+</html>
