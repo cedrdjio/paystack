@@ -89,6 +89,7 @@
                 <div class="balance">
                     <div class="left">
                         <span class="title">Solde Total</span>
+                        <h1 class="total" id="solde-total1">0 FCFA</h1>
                         <h1 class="total" id="solde-total1">0</h1>
                     </div>
                     <div class="right">
@@ -260,11 +261,13 @@
                     <div class="stat-box">
                         <div class="title" >Revenus projet</div>
                         <div class="value text-success" id="revenusProjet" >0 FCFA</div>
+                        <div class="value text-success" id="revenusProjet" >0 FCFA</div>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="stat-box">
                         <div class="title">Total retrait</div>
+                        <div class="value text-danger" id="totalRetrait" >0 FCFA</div>
                         <div class="value text-danger" id="totalRetrait" >0 FCFA</div>
                     </div>
                 </div>
@@ -273,6 +276,7 @@
                 <div class="col-6">
                     <div class="stat-box">
                         <div class="title">Invitations</div>
+                        <div class="value" id="invitations" >0 FCFA</div>
                         <div class="value" id="invitations" >0 FCFA</div>
                     </div>
                 </div>
@@ -303,6 +307,7 @@
                         </div>
                     </div>
                     <div class="right">
+                        <div class="prix transact"> 0 FCFA</div>
                         <div class="prix transact"> 0 FCFA</div>
                     </div>
                 </a>
@@ -450,6 +455,8 @@
                             <img src="assets/img/sample/avatar/avatar1.jpg" alt="image" class="imaged  w36">
                         </div>
                         <div class="in">
+                            <strong id="name">Unknow</strong>
+                            <div class="text-muted" id="phone">0000</div>
                             <strong id="name">unknow</strong>
                             <div class="text-muted" id="phone">00000</div>
                         </div>
@@ -462,6 +469,7 @@
                     <div class="sidebar-balance">
                         <div class="listview-title">Solde Total</div>
                         <div class="in">
+                            <h1 class="amount" id="solde-total">0 FCFA</h1>
                             <h1 class="amount" id="solde-total">0 FCFA</h1>
                         </div>
                     </div>
@@ -624,6 +632,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       const data = response.data;
 
+      const soldeTotal = (data.soldeCompte + data.invitations) - data.totalRetrait;
       const soldeTotal = (data.soldeCompte + data.invitations) - data.totalRetrait;
       document.getElementById('solde-total').innerHTML = soldeTotal + ' FCFA';
       document.getElementById('solde-total1').innerHTML = soldeTotal + ' FCFA';
