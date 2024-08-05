@@ -199,85 +199,77 @@
 <script src="assets/js/plugins/splide/splide.min.js"></script>
 <!-- Base Js File -->
 <script src="assets/js/base.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById('registerForm').addEventListener('submit', async function (e) {
-            e.preventDefault();
-    
-            try {
-                const name = document.getElementById('name').value;
-                const phone = document.getElementById('phoneNumber').value;
-                const password = document.getElementById('password').value;
-                const confirmPassword = document.getElementById('confirmPassword').value;
-                const inviteCode = document.getElementById('referralCode').value;
-    
-                if (!name || !phone || !password || !confirmPassword || !inviteCode) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Champs manquants',
-                        text: 'Veuillez remplir tous les champs.',
-                        confirmButtonText: 'OK'
-                    });
-                    return;
-                }
-    
-                if (password !== confirmPassword) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Erreur de mot de passe',
-                        text: 'Les mots de passe ne correspondent pas.',
-                        confirmButtonText: 'OK'
-                    });
-                    return;
-                }
-    
-                const response = await fetch('https://oyster-app-sq8k5.ondigitalocean.app/api/users/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name: name,
-                        phone: phone,
-                        password: password,
-                        inviteCode: inviteCode
-                    })
-                });
-    
-                if (response.ok) {
-                    const data = await response.json();
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Inscription réussie!',
-                        text: 'Vous allez être redirigé vers la page de connexion.',
-                        confirmButtonText: 'OK'
-                    }).then(() => {
-                        window.location.href = 'app-login.html';
-                    });
-                } else {
-                    const errorData = await response.json();
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Erreur lors de l\'inscription',
-                        text: errorData.message || 'Une erreur est survenue.',
-                        confirmButtonText: 'OK'
-                    });
-                }
-            } catch (error) {
-                console.error('Erreur de connexion au serveur:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Erreur de connexion',
-                    text: error.message || 'Une erreur est survenue lors de la connexion au serveur.',
-                    confirmButtonText: 'OK'
-                });
-            }
+    document.getElementById('registerForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+  
+      try {
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phoneNumber').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const inviteCode = document.getElementById('referralCode').value;
+  
+        if (!name || !phone || !password || !confirmPassword || !inviteCode) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Champs manquants',
+            text: 'Veuillez remplir tous les champs.',
+            confirmButtonText: 'OK'
+          });
+          return;
+        }
+  
+        if (password !== confirmPassword) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Erreur de mot de passe',
+            text: 'Les mots de passe ne correspondent pas.',
+            confirmButtonText: 'OK'
+          });
+          return;
+        }
+  
+        const response = await axios.post('http://localhost:5000/api/users/register', {
+          name: name,
+          phone: phone,
+          password: password,
+          inviteCode: inviteCode
         });
+  
+        if (response.status === 200) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Inscription réussie!',
+            text: 'Vous allez être redirigé vers la page de connexion.',
+            confirmButtonText: 'OK'
+          }).then(() => {
+            window.location.href = 'app-login.html';
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Erreur lors de l\'inscription',
+            text: response.data.message || 'Une erreur est survenue.',
+            confirmButtonText: 'OK'
+          });
+        }
+      } catch (error) {
+        console.error('Erreur de connexion au serveur:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur de connexion',
+          text: error.response ? error.response.data.message : 'Une erreur est survenue lors de la connexion au serveur.',
+          confirmButtonText: 'OK'
+        });
+      }
     });
-</script>
+  </script>
+  
 
 
 </body>

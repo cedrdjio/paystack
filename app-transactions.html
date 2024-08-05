@@ -5,12 +5,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
-    <meta name="PAYSPARK-argent-online-pay-spark" content="yes" />
-    <meta name="PAYSPARK-argent-online-pay-spark" content="black-translucent">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#000000">
-    <title>PAYSPARK</title>
+    <title>Finapp</title>
     <meta name="description" content="Finapp HTML Mobile Template">
-    <meta name="keywords" content="PAYSPARK-argent-online-pay-spark
+    <meta name="keywords" content="bootstrap, wallet, banking, fintech mobile template, cordova, phonegap, mobile, html, responsive" />
+    <link rel="icon" type="image/png" href="assets/img/favicon.png" sizes="32x32">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/img/icon/192x192.png">
     <link rel="stylesheet" href="assets/css/style.css">
     <style>
@@ -118,79 +119,79 @@
     <!-- Base Js File -->
     <script src="assets/js/base.js"></script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const userId = localStorage.getItem('userId'); // Assurez-vous que userId est stocké dans le localStorage
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const userId = sessionStorage.getItem('userId'); // Assurez-vous que userId est stocké dans le sessionStorage
 
-            fetch(`https://oyster-app-sq8k5.ondigitalocean.app/api/users/${userId}/transactions`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Transactions reçues:', data);
-                displayTransactions(data);
-            })
-            .catch(error => {
-                console.error('Erreur :', error);
-            });
+    axios.get(`http://localhost:5000/api/users/${userId}/transactions`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      const data = response.data;
+      console.log('Transactions reçues:', data);
+      displayTransactions(data);
+    })
+    .catch(error => {
+      console.error('Erreur :', error);
+    });
+  });
 
-            function displayTransactions(data) {
-                const container = document.getElementById('transactions-container');
-                container.innerHTML = ''; // Vider le conteneur
+  function displayTransactions(data) {
+    const container = document.getElementById('transactions-container');
+    container.innerHTML = ''; // Vider le conteneur
 
-                if (Array.isArray(data) && data.length > 0) {
-                    const transactionsHtml = data.map(transaction => {
-                        const dateFormatted = new Date(transaction.date).toLocaleDateString('fr-FR');
-                        let typeClass = '';
-                        let amountClass = '';
+    if (Array.isArray(data) && data.length > 0) {
+      const transactionsHtml = data.map(transaction => {
+        const dateFormatted = new Date(transaction.date).toLocaleDateString('fr-FR');
+        let typeClass = '';
+        let amountClass = '';
 
-                        switch (transaction.type) {
-                            case 'retrait':
-                                typeClass = 'type-retrait';
-                                amountClass = 'transaction-amount-retrait';
-                                break;
-                            case 'souscription':
-                                typeClass = 'type-souscription';
-                                amountClass = 'transaction-amount-souscription';
-                                break;
-                            case 'recharge':
-                                typeClass = 'type-recharge';
-                                amountClass = 'transaction-amount-recharge';
-                                break;
-                            default:
-                                typeClass = '';
-                                amountClass = '';
-                                break;
-                        }
+        switch (transaction.type) {
+          case 'retrait':
+            typeClass = 'type-retrait';
+            amountClass = 'transaction-amount-retrait';
+            break;
+          case 'souscription':
+            typeClass = 'type-souscription';
+            amountClass = 'transaction-amount-souscription';
+            break;
+          case 'recharge':
+            typeClass = 'type-recharge';
+            amountClass = 'transaction-amount-recharge';
+            break;
+          default:
+            typeClass = '';
+            amountClass = '';
+            break;
+        }
 
-                        return `
-                            <div class="transaction-item">
-                                <a href="#" class="item">
-                                    <div class="detail">
-                                        <div>
-                                            <strong class="${typeClass}">${transaction.type}</strong>
-                                            <p>${transaction.description}</p>
-                                            <p>${dateFormatted}</p>
-                                        </div>
-                                    </div>
-                                    <div class="right">
-                                        <div class="price ${amountClass}">${transaction.amount ? transaction.amount + ' FCFA' : 'N/A'}</div>
-                                    </div>
-                                </a>
-                            </div>
-                        `;
-                    }).join('');
-                    container.innerHTML = transactionsHtml;
-                } else {
-                    console.error('No transactions found');
-                    container.innerHTML = '<p>Aucune transaction trouvée</p>';
-                }
-            }
-        });
-    </script>
+        return `
+          <div class="transaction-item">
+            <a href="#" class="item">
+              <div class="detail">
+                <div>
+                  <strong class="${typeClass}">${transaction.type}</strong>
+                  <p>${transaction.description}</p>
+                  <p>${dateFormatted}</p>
+                </div>
+              </div>
+              <div class="right">
+                <div class="price ${amountClass}">${transaction.amount ? transaction.amount + ' FCFA' : 'N/A'}</div>
+              </div>
+            </a>
+          </div>
+        `;
+      }).join('');
+      container.innerHTML = transactionsHtml;
+    } else {
+      console.error('No transactions found');
+      container.innerHTML = '<p>Aucune transaction trouvée</p>';
+    }
+  }
+</script>
 </body>
 
 </html>
