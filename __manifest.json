@@ -1,9 +1,9 @@
 {
-    "name": "PaySpark",
-    "short_name": "PaySpark",
+    "name": "PAYSPARK",
+    "short_name": "PAYSPARK",
     "start_url": "https://octopus-app-jpgya.ondigitalocean.app/app-login.html",
     "display": "standalone",
-    "scope" : "https://octopus-app-jpgya.ondigitalocean.app/",
+    "scope" : "https://octopus-app-jpgya.ondigitalocean.app/app-login.html",
     "background_color": "#000000",
     "theme_color": "#000000",
     "orientation": "portrait",
