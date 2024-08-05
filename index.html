@@ -5,8 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="PAYSPARK - payement - money - cash - easy" content="yes" />
+    <meta name="PAYSPARK - payement - money - cash - easy" content="black-translucent">
     <meta name="theme-color" content="#000000">
     <title>PAYSPARK</title>
     <style>
@@ -617,7 +617,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Fonction pour charger les informations de l'utilisateur
   const loadUserInfo = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/users/${userId}`, {
+      const response = await axios.get(`https://oyster-app-sq8k5.ondigitalocean.app/api/users/${userId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -643,7 +643,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Fonction pour charger les transactions
   const loadTransactions = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/users/${userId}/transactions`);
+      const response = await axios.get(`https://oyster-app-sq8k5.ondigitalocean.app/api/users/${userId}/transactions`);
       const transactions = response.data;
       const transactionsContainer = document.querySelector('.transactions');
       transactionsContainer.innerHTML = '';
@@ -724,7 +724,7 @@ handleRecharge = async () => {
 
   try {
     const userId = sessionStorage.getItem('userId'); // Remplacer localStorage par sessionStorage
-    const response = await axios.post(`http://localhost:5000/api/users/${userId}/recharge`, {
+    const response = await axios.post(`https://oyster-app-sq8k5.ondigitalocean.app/api/users/${userId}/recharge`, {
       transactionId: verificationChain,
       amount: parseInt(amount, 10),
       verificationChain: verificationChain
@@ -773,7 +773,7 @@ handleRecharge = async () => {
     }
 
     try {
-      const response = await axios.post(`http://localhost:5000/api/users/${userId}/withdraw`, {
+      const response = await axios.post(`https://oyster-app-sq8k5.ondigitalocean.app/api/users/${userId}/withdraw`, {
         amount: amount
       });
 

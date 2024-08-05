@@ -272,7 +272,7 @@
           console.log('le userID est :', userId);
       
           // Envoyer la requête POST avec les ID de l'utilisateur et du plan
-          axios.post(`http://localhost:5000/api/${userId}/subscribe`, { id })
+          axios.post(`https://oyster-app-sq8k5.ondigitalocean.app/api/${userId}/subscribe`, { id })
             .then(response => {
               const data = response.data;
               console.log('Données reçues :', data);
@@ -311,7 +311,7 @@
       });
     
       // Récupérer et afficher les abonnements de l'utilisateur
-      axios.get(`http://localhost:5000/api/subscriptions/${sessionStorage.getItem('userId')}`)
+      axios.get(`https://oyster-app-sq8k5.ondigitalocean.app/api/subscriptions/${sessionStorage.getItem('userId')}`)
         .then(response => {
           const data = response.data;
           console.log(data);

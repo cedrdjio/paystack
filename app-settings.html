@@ -5,12 +5,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="PAYSPARK - payement - money - cash - easy" content="yes" />
+    <meta name="PAYSPARK - payement - money - cash - easy" content="black-translucent">
     <meta name="theme-color" content="#000000">
     <title>PAYSPARK</title>
-    <meta name="description" content="Finapp HTML Mobile Template">
-    <meta name="keywords" content="bootstrap, wallet, banking, fintech mobile template, cordova, phonegap, mobile, html, responsive" />
+    <meta name="description" content="PAYSPARK , investissement fiable et rentable">
+    <meta name="keywords" content="PAYSPARK , investissement fiable et rentable" />
     <link rel="icon" type="image/png" href="assets/img/favicon.png" sizes="32x32">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/img/icon/192x192.png">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -212,47 +212,6 @@
     <script src="assets/js/base.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <script>
-
-
-
-  const token = sessionStorage.getItem('token');
-  const userId = sessionStorage.getItem('userId');
-  const name = sessionStorage.getItem('name');
-  
-
-  
-  // Fonction pour charger les informations de l'utilisateur
-  const loadUserInfo = async () => {
-
-    // Rediriger vers la page de connexion si le token n'existe pas
-if (!token) {
-  console.log('No token found, redirecting to login page');
-  window.location.href = 'app-login.html';
-  return;
-}
-    try {
-      const response = await axios.get(`http://localhost:5000/api/users/${userId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const data = response.data;
-      console.log(data);
-
-      
-      document.getElementById('name').innerHTML = name;
-    } catch (error) {
-      console.error('Error loading user info:', error);
-      if (error.response && error.response.status === 401) {
-        window.location.href = 'app-login.html';
-      }
-    }
-  };
-
-
-
-    </script>
 
 
 </body>
