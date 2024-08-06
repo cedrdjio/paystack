@@ -210,13 +210,6 @@ const urlParams = new URLSearchParams(window.location.search);
 const inviteCode = urlParams.get('inviteCode');
 console.log(inviteCode);
 
-if (inviteCode) {
-  // Remplir le champ de formulaire avec la valeur de inviteCode
-  document.getElementById('referralCode').innerHTML = inviteCode;
-
-  // Rediriger vers la page register
-  window.location.replace('/app-register.html');
-}
 
     document.getElementById('registerForm').addEventListener('submit', async function (e) {
       e.preventDefault();
@@ -226,7 +219,7 @@ if (inviteCode) {
         const phone = document.getElementById('phoneNumber').value;
         const password = document.getElementById('password').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
-        const inviteCode = document.getElementById('referralCode').value;
+        document.getElementById('referralCode').value =  inviteCode ;
   
         if (!name || !phone || !password || !confirmPassword || !inviteCode) {
           Swal.fire({
