@@ -203,80 +203,91 @@
 
 
 <script>
-
-// Récupérer le paramètre inviteCode de l'URL
-const urlParams = new URLSearchParams(window.location.search);
-const inviteCode = urlParams.get('inviteCode');
-inviteCode = document.getElementById('referralCode').value;
-console.log('le referal code est :', inviteCode);
-
-
-
-    document.getElementById('registerForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
-
-      try {
-        const name = document.getElementById('name').value;
-        const phone = document.getElementById('phoneNumber').value;
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
-        
+    document.addEventListener('DOMContentLoaded', () => {
+      // Récupérer le paramètre inviteCode de l'URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const inviteCodeFromURL = urlParams.get('inviteCode');
   
-        if (!name || !phone || !password || !confirmPassword || !inviteCode) {
-          Swal.fire({
-            icon: 'warning',
-            title: 'Champs manquants',
-            text: 'Veuillez remplir tous les champs.',
-            confirmButtonText: 'OK'
+      console.log('Le code de référence de l\'URL est :', inviteCodeFromURL);
+  
+      // Remplir le champ referralCode avec le code de l'URL
+      const referralCodeInput = document.getElementById('referralCode');
+      if (referralCodeInput && inviteCodeFromURL) {
+        referralCodeInput.value = inviteCodeFromURL;
+      }
+  
+      // Écouter l'événement de soumission du formulaire
+      document.getElementById('registerForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+  
+        try {
+          const name = document.getElementById('name').value;
+          const phone = document.getElementById('phoneNumber').value;
+          const password = document.getElementById('password').value;
+          const confirmPassword = document.getElementById('confirmPassword').value;
+          const inviteCode = referralCodeInput ? referralCodeInput.value : '';
+  
+          // Vérifier que tous les champs sont remplis
+          if (!name || !phone || !password || !confirmPassword || !inviteCode) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Champs manquants',
+              text: 'Veuillez remplir tous les champs.',
+              confirmButtonText: 'OK'
+            });
+            return;
+          }
+  
+          // Vérifier que les mots de passe correspondent
+          if (password !== confirmPassword) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Erreur de mot de passe',
+              text: 'Les mots de passe ne correspondent pas.',
+              confirmButtonText: 'OK'
+            });
+            return;
+          }
+  
+          // Envoyer la demande d'inscription
+          const response = await axios.post('https://oyster-app-sq8k5.ondigitalocean.app/api/users/register', {
+            name: name,
+            phone: phone,
+            password: password,
+            inviteCode: inviteCode
           });
-          return;
-        }
   
-        if (password !== confirmPassword) {
-          Swal.fire({
-            icon: 'warning',
-            title: 'Erreur de mot de passe',
-            text: 'Les mots de passe ne correspondent pas.',
-            confirmButtonText: 'OK'
-          });
-          return;
-        }
-  
-        const response = await axios.post('https://oyster-app-sq8k5.ondigitalocean.app/api/users/register', {
-          name: name,
-          phone: phone,
-          password: password,
-          inviteCode: inviteCode
-        });
-  
-        if (response.status === 201) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Inscription réussie!',
-            text: 'Vous allez être redirigé vers la page de connexion.',
-            confirmButtonText: 'OK'
-          }).then(() => {
-            window.location.href = 'app-login.html';
-          });
-        } else {
+          // Gérer la réponse du serveur
+          if (response.status === 201) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Inscription réussie!',
+              text: 'Vous allez être redirigé vers la page de connexion.',
+              confirmButtonText: 'OK'
+            }).then(() => {
+              window.location.href = 'app-login.html';
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Erreur lors de l\'inscription',
+              text: response.data.message || 'Une erreur est survenue.',
+              confirmButtonText: 'OK'
+            });
+          }
+        } catch (error) {
+          console.error('Erreur de connexion au serveur:', error);
           Swal.fire({
             icon: 'error',
-            title: 'Erreur lors de l\'inscription',
-            text: response.data.message || 'Une erreur est survenue.',
+            title: 'Erreur de connexion',
+            text: error.response ? error.response.data.message : 'Une erreur est survenue lors de la connexion au serveur.',
             confirmButtonText: 'OK'
           });
         }
-      } catch (error) {
-        console.error('Erreur de connexion au serveur:', error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Erreur de connexion',
-          text: error.response ? error.response.data.message : 'Une erreur est survenue lors de la connexion au serveur.',
-          confirmButtonText: 'OK'
-        });
-      }
+      });
     });
   </script>
+  
   
 
 
