@@ -219,7 +219,8 @@ console.log(inviteCode);
         const phone = document.getElementById('phoneNumber').value;
         const password = document.getElementById('password').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
-        document.getElementById('referralCode').value =  inviteCode ;
+        const referralCodeInput = document.querySelector('#referralCode');
+        referralCodeInput.value = inviteCode;
   
         if (!name || !phone || !password || !confirmPassword || !inviteCode) {
           Swal.fire({
