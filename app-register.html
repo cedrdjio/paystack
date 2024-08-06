@@ -207,7 +207,9 @@
 // Récupérer le paramètre inviteCode de l'URL
 const urlParams = new URLSearchParams(window.location.search);
 const inviteCode = urlParams.get('inviteCode');
-console.log(inviteCode);
+inviteCode = document.getElementById('referralCode').value;
+console.log('le referal code est :', inviteCode);
+
 
 
     document.getElementById('registerForm').addEventListener('submit', async function (e) {
@@ -218,9 +220,7 @@ console.log(inviteCode);
         const phone = document.getElementById('phoneNumber').value;
         const password = document.getElementById('password').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
-        const referralCodeInput = document.querySelector('#referralCode');
-        console.log('le referal code est :', referralCodeInput);
-        referralCodeInput.value = inviteCode;
+        
   
         if (!name || !phone || !password || !confirmPassword || !inviteCode) {
           Swal.fire({
