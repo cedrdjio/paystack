@@ -639,7 +639,7 @@
       });
       const data = response.data;
 
-      const soldeTotal = (data.soldeCompte + data.revenusProjet + data.invitations) - data.totalRetrait
+      const soldeTotal = (data.soldeTotal + data.soldeCompte + data.revenusProjet + data.invitations) - data.totalRetrait
       document.getElementById('solde-total').innerHTML = soldeTotal + ' FCFA';
       document.getElementById('solde-total1').innerHTML = soldeTotal + ' FCFA';
       document.getElementById('revenusProjet').innerHTML = data.revenusProjet;
