@@ -105,8 +105,7 @@
                     <div class="form-group basic">
                         <div class="input-wrapper">
                             <label class="label" for="referralCode">Code de référence</label>
-                            <input type="text" class="form-control" id="referralCode"
-                                   placeholder="votre code d'invitation">
+                            <input type="text" class="form-control" id="referralCode" placeholder="votre code d'invitation">
                             <i class="clear-input">
                                 <ion-icon name="close-circle"></ion-icon>
                             </i>
@@ -220,6 +219,7 @@ console.log(inviteCode);
         const password = document.getElementById('password').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
         const referralCodeInput = document.querySelector('#referralCode');
+        console.log('le referal code est :', referralCodeInput);
         referralCodeInput.value = inviteCode;
   
         if (!name || !phone || !password || !confirmPassword || !inviteCode) {
