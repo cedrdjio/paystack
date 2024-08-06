@@ -112,18 +112,21 @@
                 <div class="card-body">
                     <div class="p-1">
                         <div class="text-center">
-                            <h2 class="text-primary mb-2">Nos réseaux externes</h2>
+                            <h2 class="text-primary mb-2">Rejoignez notre communauté</h2>
 
-                            <a href="#" class="btn btn-facebook btn-icon me-05">
+                            <a href="https://t.me/+1SAdiAszQlplMDg0" class="btn btn-facebook btn-icon me-05" target="_blank" rel="noopener noreferrer">
                                 <ion-icon name="logo-facebook"></ion-icon>
                             </a>
-                            <a href="#" class="btn btn-whatsapp btn-icon me-05">
-                                <ion-icon name="logo-whatsapp"></ion-icon>
-                            </a>
+                            
 
-                            <a href="#" class="btn btn-instagram btn-icon me-05">
+                            <a href="https://chat.whatsapp.com/Fd8NnsgGaRVIVWp6wU2ISY" class="btn btn-whatsapp btn-icon me-05" target="_blank" rel="noopener noreferrer">
+                                <ion-icon name="logo-whatsapp"></ion-icon>
+                            </a>                            
+
+                            <a href="https://www.instagram.com/_payspark?igsh=MWU0MGFic2ExYnE4aQ==" class="btn btn-instagram btn-icon me-05" target="_blank" rel="noopener noreferrer">
                                 <ion-icon name="logo-instagram"></ion-icon>
                             </a>
+                            
 
                         </div>
                     </div>
@@ -176,6 +179,59 @@
     <script src="assets/js/plugins/splide/splide.min.js"></script>
     <!-- Base Js File -->
     <script src="assets/js/base.js"></script>
+
+    <!-- Assurez-vous d'inclure SweetAlert dans votre HTML -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Sélectionner le formulaire et le bouton d'envoi
+    const form = document.querySelector('form');
+    const submitButton = document.querySelector('button[type="button"]');
+
+    // Ajouter un événement de soumission au formulaire
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault(); // Empêcher l'envoi par défaut du formulaire
+
+        // Récupérer les valeurs des champs du formulaire
+        const name = document.getElementById('name2').value.trim();
+        const phone = document.getElementById('email2').value.trim();
+        const message = document.getElementById('textarea2').value.trim();
+
+        // Vérifier si tous les champs sont remplis
+        if (!name || !phone || !message) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Champs manquants',
+                text: 'Veuillez remplir tous les champs.',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
+
+        // Ici, vous pouvez ajouter le code pour envoyer les données du formulaire à votre serveur
+
+        // Afficher le message de succès
+        Swal.fire({
+            icon: 'success',
+            title: 'Message envoyé!',
+            text: 'Votre message a été envoyé avec succès.',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            // Effacer le contenu des champs du formulaire après la fermeture de l'alerte
+            document.getElementById('name2').value = '';
+            document.getElementById('email2').value = '';
+            document.getElementById('textarea2').value = '';
+        });
+    });
+
+    // Ajouter un événement click au bouton d'envoi pour soumettre le formulaire
+    submitButton.addEventListener('click', () => {
+        form.dispatchEvent(new Event('submit'));
+    });
+});
+</script>
+
 
 
 </body>
