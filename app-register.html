@@ -204,26 +204,22 @@
 
 
 <script>
+
+// Récupérer le paramètre inviteCode de l'URL
+const urlParams = new URLSearchParams(window.location.search);
+const inviteCode = urlParams.get('inviteCode');
+console.log(inviteCode);
+
+if (inviteCode) {
+  // Remplir le champ de formulaire avec la valeur de inviteCode
+  document.getElementById('referralCode').value = inviteCode;
+
+  // Rediriger vers la page register
+  window.location.replace('/app-register.html');
+}
+
     document.getElementById('registerForm').addEventListener('submit', async function (e) {
       e.preventDefault();
-
-           
-  // Fonction pour extraire les paramètres de l'URL
-  const getQueryParam = (param) => {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(param);
-  };
-
-  // Récupérez le code d'invitation depuis l'URL
-  const inviteCode = getQueryParam('inviteCode');
-
-  // Remplir le champ du formulaire si le code d'invitation est présent
-  if (inviteCode) {
-    const referralCodeInput = document.getElementById('referralCode');
-    if (referralCodeInput) {
-      referralCodeInput.value = inviteCode;
-    }
-  }
 
       try {
         const name = document.getElementById('name').value;
