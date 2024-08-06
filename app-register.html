@@ -212,7 +212,7 @@ console.log(inviteCode);
 
 if (inviteCode) {
   // Remplir le champ de formulaire avec la valeur de inviteCode
-  document.getElementById('referralCode').value = inviteCode;
+  document.getElementById('referralCode').innerHTML = inviteCode;
 
   // Rediriger vers la page register
   window.location.replace('/app-register.html');
