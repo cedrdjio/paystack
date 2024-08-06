@@ -672,7 +672,7 @@
 
       latestTransactions.forEach(transaction => {
         const transactionItem = document.createElement('a');
-        transactionItem.href = "#";
+        transactionItem.href = "app-transaction.html";
         transactionItem.className = 'item';
 
         const detailDiv = document.createElement('div');
@@ -702,7 +702,7 @@
 
         const priceDiv = document.createElement('div');
         priceDiv.className = 'prix transact';
-        priceDiv.textContent = `- ${transaction.amount} FCFA`; // Supposant que 'amount' est le montant de la transaction
+        priceDiv.textContent = ` ${transaction.amount} FCFA`; // Supposant que 'amount' est le montant de la transaction
 
         rightDiv.appendChild(priceDiv);
 
