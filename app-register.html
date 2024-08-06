@@ -206,7 +206,25 @@
 <script>
     document.getElementById('registerForm').addEventListener('submit', async function (e) {
       e.preventDefault();
-  
+
+           
+  // Fonction pour extraire les paramètres de l'URL
+  const getQueryParam = (param) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  };
+
+  // Récupérez le code d'invitation depuis l'URL
+  const inviteCode = getQueryParam('inviteCode');
+
+  // Remplir le champ du formulaire si le code d'invitation est présent
+  if (inviteCode) {
+    const referralCodeInput = document.getElementById('referralCode');
+    if (referralCodeInput) {
+      referralCodeInput.value = inviteCode;
+    }
+  }
+
       try {
         const name = document.getElementById('name').value;
         const phone = document.getElementById('phoneNumber').value;
