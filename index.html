@@ -768,7 +768,7 @@ handleRecharge = async () => {
     const amountInput = document.getElementById('montant');
     const amount = parseInt(amountInput.value, 10);
 
-    if (isNaN(amount) || amount < 2000) {
+    if (isNaN(amount) || amount < 5000) {
       Swal.fire({
         icon: 'error',
         title: 'Erreur',
