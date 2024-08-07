@@ -593,6 +593,7 @@
     <script src="assets/js/base.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+   
 
 
     <script>
@@ -768,42 +769,70 @@ handleRecharge = async () => {
     const amountInput = document.getElementById('montant');
     const amount = parseInt(amountInput.value, 10);
 
+    // Vérifier si le montant est un multiple de 10
+    if (amount % 10 !== 0) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Information',
+            text: 'Le montant doit être un chiffre rond',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#3085d6'
+        });
+        return;
+    }
+
+
+    // Vérifier le montant minimum
     if (isNaN(amount) || amount < 5000) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Erreur',
-        text: 'Le montant minimum de retrait est de 2000 FCFA',
-        confirmButtonText: 'OK',
-        confirmButtonColor: '#3085d6'
-      });
-      return;
+        Swal.fire({
+            icon: 'error',
+            title: 'Erreur',
+            text: 'Le montant minimum de retrait est de 5000 FCFA',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#3085d6'
+        });
+        return;
     }
 
     try {
-      const response = await axios.post(`https://oyster-app-sq8k5.ondigitalocean.app/api/users/${userId}/withdraw`, {
-        amount: amount
-      });
+        // Envoyer la demande de retrait à l'API
+        const response = await axios.post(`https://oyster-app-sq8k5.ondigitalocean.app/api/users/${userId}/withdraw`, {
+            amount: amount
+        });
 
-      if (response.status === 200) {
-    Swal.fire({
-      icon: 'success',
-      title: 'Validation',
-      text: 'Demande de retrait effectuée',
-      confirmButtonText: 'OK',
-      confirmButtonColor: '#3085d6'
-    }).then(() => {
-      window.location.href = 'index.html';
-    });
-  }
+        // Traiter la réponse
+        if (response.status === 200) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Validation',
+                text: 'Demande de retrait effectuée',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#3085d6'
+            }).then(() => {
+                window.location.href = 'index.html';
+            });
+        }
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Erreur',
-        text: 'Une erreur est survenue lors de l\'envoi de la requête',
-        confirmButtonText: 'OK',
-        confirmButtonColor: '#3085d6'
-      });
-      console.error('Error:', error);
+        // Gérer les erreurs de réponse
+        if (error.response && error.response.status === 406) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Veuillez patienter',
+                text: 'Les retraits ne sont disponibles que entre 20:00 et 00:00.',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#3085d6'
+            });
+        } else {
+            // Gérer d'autres erreurs
+            Swal.fire({
+                icon: 'error',
+                title: 'Erreur',
+                text: 'Une erreur est survenue lors de l\'envoi de la requête',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#3085d6'
+            });
+            console.error('Error:', error);
+        }
     }
   };
 
