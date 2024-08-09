@@ -482,6 +482,16 @@
                             </a>
                         </li>
                         <li>
+                            <a href="app-about.html" class="item">
+                                <div class="icon-box bg-primary">
+                                    <ion-icon name="help-circle-outline"></ion-icon>
+                                </div>
+                                <div class="in">
+                                    A propos de nous
+                                </div>
+                            </a>
+                        </li>
+                        <li>
                             <a href="app-contact.html" class="item">
                                 <div class="icon-box bg-primary">
                                     <!--<ion-icon name="chatbubble-outline"></ion-icon>-->
@@ -633,7 +643,7 @@
           // Fonction pour charger les informations de l'utilisateur
           const loadUserInfo = async () => {
             try {
-              const response = await axios.get(`https://oyster-app-sq8k5.ondigitalocean.app/api/users/${userId}`, {
+              const response = await axios.get(`http://localhost:5000/api/users/${userId}`, {
                 headers: {
                   'Authorization': `Bearer ${token}`
                 }
@@ -659,7 +669,7 @@
           // Fonction pour charger les transactions
           const loadTransactions = async () => {
             try {
-              const response = await axios.get(`https://oyster-app-sq8k5.ondigitalocean.app/api/users/${userId}/transactions`);
+              const response = await axios.get(`http://localhost:5000/api/users/${userId}/transactions`);
               const transactions = response.data;
               const transactionsContainer = document.querySelector('.transactions');
               transactionsContainer.innerHTML = '';
@@ -751,7 +761,7 @@
   }
 
   try {
-    const response = await axios.post(`https://oyster-app-sq8k5.ondigitalocean.app/api/users/${userId}/recharge`, {
+    const response = await axios.post(`http://localhost:5000/api/users/${userId}/recharge`, {
       transactionId: verificationChain,
       amount: amountNumber,
       verificationChain: verificationChain
@@ -837,7 +847,7 @@
       
             try {
               // Envoyer la demande de retrait à l'API
-              const response = await axios.post(`https://oyster-app-sq8k5.ondigitalocean.app/api/users/${userId}/withdraw`, {
+              const response = await axios.post(`http://localhost:5000/api/users/${userId}/withdraw`, {
                 amount: amount
               });
       
@@ -882,8 +892,6 @@
           loadTransactions();
         });
       </script>
-      
-
 
 </body>
 
