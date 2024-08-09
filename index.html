@@ -640,7 +640,7 @@
               });
               const data = response.data;
       
-              const soldeTotal = (data.soldeTotal + data.soldeCompte + data.revenusProjet + data.invitations) - data.totalRetrait;
+              const soldeTotal = (data.soldeCompte + data.revenusProjet + data.invitations);
               document.getElementById('solde-total').innerHTML = soldeTotal + ' FCFA';
               document.getElementById('solde-total1').innerHTML = soldeTotal + ' FCFA';
               document.getElementById('revenusProjet').innerHTML = data.revenusProjet;
@@ -714,75 +714,97 @@
       
           // Fonction pour effectuer une recharge
           const handleRecharge = async () => {
-            const amountElement = document.getElementById('amount');
-            const verificationChainElement = document.getElementById('transactionId');
-      
-            if (!amountElement || !verificationChainElement) {
-              Swal.fire({
-                icon: 'warning',
-                title: 'Champs manquants',
-                text: 'Veuillez remplir tous les champs.',
-              });
-              return;
-            }
-      
-            const amount = amountElement.value;
-            const verificationChain = verificationChainElement.value;
-      
-            if (!verificationChain || !amount) {
-              Swal.fire({
-                icon: 'warning',
-                title: 'Champs manquants',
-                text: 'Veuillez remplir tous les champs.',
-              });
-              return;
-            }
-      
-            try {
-              const response = await axios.post(`https://oyster-app-sq8k5.ondigitalocean.app/api/users/${userId}/recharge`, {
-                transactionId: verificationChain,
-                amount: parseInt(amount, 10),
-                verificationChain: verificationChain
-              });
-      
-              if (response.status === 400) {
-                Swal.fire({
-                  icon: 'warning',
-                  title: 'Erreur',
-                  text: 'Format d\'ID invalide. Veuillez insérer le bon format d\'ID.',
-                });
-              } else if (response.status === 401) {
-                Swal.fire({
-                  icon: 'warning',
-                  title: 'Erreur',
-                  text: 'ID de transaction invalide.',
-                });
-              } else {
-                Swal.fire({
-                  icon: 'success',
-                  title: 'Succès',
-                  text: 'Recharge effectuée avec succès!',
-                }).then(() => {
-                  window.location.reload();
-                });
-              }
-            } catch (error) {
-              if (error.response && error.response.status === 500) {
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Erreur serveur',
-                  text: 'Une erreur serveur est survenue. Veuillez réessayer plus tard.',
-                });
-              } else {
-                console.error('Erreur:', error);
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Erreur',
-                  text: 'Une erreur inconnue est survenue.',
-                });
-              }
-            }
-          };
+  const amountElement = document.getElementById('amount');
+  const verificationChainElement = document.getElementById('transactionId');
+
+  if (!amountElement || !verificationChainElement) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Champs manquants',
+      text: 'Veuillez remplir tous les champs.',
+    });
+    return;
+  }
+
+  const amount = amountElement.value.trim();
+  const verificationChain = verificationChainElement.value.trim();
+
+  // Validation de la saisie
+  if (!verificationChain || !amount) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Champs manquants',
+      text: 'Veuillez remplir tous les champs.',
+    });
+    return;
+  }
+
+  // Vérification du montant
+  const amountNumber = parseInt(amount, 10);
+  if (isNaN(amountNumber) || amountNumber <= 0) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Montant invalide',
+      text: 'Veuillez entrer un montant valide.',
+    });
+    return;
+  }
+
+  try {
+    const response = await axios.post(`https://oyster-app-sq8k5.ondigitalocean.app/api/users/${userId}/recharge`, {
+      transactionId: verificationChain,
+      amount: amountNumber,
+      verificationChain: verificationChain
+    });
+
+    if (response.status === 200) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Succès',
+        text: 'Recharge effectuée avec succès!',
+      }).then(() => {
+        window.location.reload();
+      });
+    } else if (response.status === 400) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Erreur',
+        text: 'Format d\'ID invalide. Veuillez insérer le bon format d\'ID.',
+      });
+    } else if (response.status === 401) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Erreur',
+        text: 'ID de transaction invalide.',
+      });
+    }
+  } catch (error) {
+    if (error.response) {
+      if (error.response.status === 500) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur serveur',
+          text: 'Une erreur serveur est survenue. Veuillez réessayer plus tard.',
+        });
+      } else {
+        console.error('Erreur:', error.response.data);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: 'Une erreur est survenue : ' + error.response.data.message,
+        });
+      }
+    } else {
+      console.error('Erreur:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Erreur',
+        text: 'Une erreur inconnue est survenue.',
+      });
+    }
+  }
+};
+
       
           // Fonction pour effectuer un retrait
           const handleWithdraw = async () => {
