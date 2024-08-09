@@ -713,7 +713,7 @@
           };
       
           // Fonction pour effectuer une recharge
-          const handleRecharge = async () => {
+        handleRecharge = async () => {
   const amountElement = document.getElementById('amount');
   const verificationChainElement = document.getElementById('transactionId');
 
@@ -807,7 +807,7 @@
 
       
           // Fonction pour effectuer un retrait
-          const handleWithdraw = async () => {
+        handleWithdraw = async () => {
             const amountInput = document.getElementById('montant');
             const amount = parseInt(amountInput.value, 10);
       
